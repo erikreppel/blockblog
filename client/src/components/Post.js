@@ -1,5 +1,6 @@
 import React from 'react';
-import moment from 'moment';
+// import moment from 'moment';
+const moment = require('moment');
 
 const Post = ({ post }) => {
   return (
@@ -12,7 +13,7 @@ const Post = ({ post }) => {
       <a href={`http://localhost:3000/${post.user_id}`}>
         <h1 className='username'>{post.user}</h1>
       </a>
-      <p className='timestamp'>{moment.format(post.timestamp)}</p>
+      <p className='timestamp'>{moment(post.timestamp).fromNow()}</p>
       <p className='body'>{post.body}</p>
     </div>
   );
