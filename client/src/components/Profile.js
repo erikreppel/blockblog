@@ -4,6 +4,8 @@ import Feed from './Feed';
 
 const Profile = ({ user_id }) => {
   // change url to         window.location.href + 'users/user'          for prod
+  let posts = [];
+
   fetch(`http://localhost:3005/users/${user_id}`, {
     method: 'GET',
     headers: {
@@ -15,20 +17,19 @@ const Profile = ({ user_id }) => {
     return response.json();
   })
   .then(profile => {
-    const result = JSON.parse(profile.posts);
-    return result;
+    posts = profile.posts;
   });
 
   return (
     <div className='profile container'>
-      <UserDetails user={'Michael'} />
-      <Feed posts={[]} />
+      <UserDetails user={user_id} />
+      <Feed posts={posts} />
     </div>
   );
 };
 
-// Profile.propTypes = {
-
-// };
+Profile.propTypes = {
+  user_id: React.PropTypes.string.isRequired
+};
 
 export default Profile;

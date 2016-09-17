@@ -1,6 +1,6 @@
 import React from 'react';
 
-const sendPost = (body) => {
+const sendPost = body => {
   const post = {
     user: 'Michael',
     user_id: '123',
