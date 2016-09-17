@@ -33,7 +33,7 @@ const Feed = () => {
     <div className='feed'>
       {
         blocks.map(block => {
-          return <Block block={block} />
+          return <Block block={block} key={block.user_id} />
         })
       }
     </div>

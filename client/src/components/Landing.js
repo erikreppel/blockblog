@@ -11,17 +11,17 @@ const Landing = () => {
   let passwordRef;
 
   return (
-    <div className='landing'>
-      <h1>BlockBlog</h1>
-      <label>Email</label>
-      <input type="text" id="email" ref={node => {
+    <div className='landing row'>
+      <h1>// block_blog</h1>
+      <input type="text" placeholder="Email" ref={node => {
         userRef = node;
       }}/>
-      <label>Password</label>
-      <input type="password" id="password" ref={node => {
+      <br />
+      <input type="password" placeholder="Password" ref={node => {
         passwordRef = node;
       }}/>
-      <button className="signin-db" onClick={() => {
+      <br />
+      <button className="button button-primary signin-db" onClick={() => {
         const username = userRef.value.trim();
         const password = passwordRef.value.trim();
         // auth0.signin({
