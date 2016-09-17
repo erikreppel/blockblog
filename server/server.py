@@ -1,8 +1,14 @@
-from flask import Flask, request, jsonify, session, redirect, render_template, send_from_directory, render_template
-from functools import wraps
+from flask import (Flask,
+                   request,
+                   jsonify,
+                   session,
+                   redirect,
+                   render_template,
+                   make_response)
 import requests
 import helpers
 import data
+from functools import wraps
 import json
 from random import randint
 
@@ -13,6 +19,17 @@ app.secret_key = '@mgonto'
 def is_authed(session):
     return 'profile' in session
 
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if 'profile' not in session:
+            # Redirect to Login page here
+            return redirect('/')
+        return f(*args, **kwargs)
+    return decorated
+
+
 @app.route('/callback')
 def callback_handling():
     code = request.args.get('code')
@@ -22,11 +39,11 @@ def callback_handling():
     token_url = "https://{domain}/oauth/token".format(domain='erikreppel.auth0.com')
 
     token_payload = {
-    'client_id':     'M3Iy4EYCRTD7uaGpBCE5nfAXMsCukFAV',
-    'client_secret': 'iF7KTOHLyPb8zZUgZMaDak4jIXfu2LDEVPr6FWoSqtBWBxy8xxqJysOHM9d9FdP1',
-    'redirect_uri':  'http://localhost:3000/protected',
-    'code':          code,
-    'grant_type':    'authorization_code'
+        'client_id': 'M3Iy4EYCRTD7uaGpBCE5nfAXMsCukFAV',
+        'client_secret': 'iF7KTOHLyPb8zZUgZMaDak4jIXfu2LDEVPr6FWoSqtBWBxy8xxqJysOHM9d9FdP1',
+        'redirect_uri': 'http://localhost:3000/protected',
+        'code': code,
+        'grant_type': 'authorization_code'
     }
     token_info = requests.post(token_url, data=json.dumps(token_payload), headers = json_header).json()
 
@@ -42,6 +59,7 @@ def callback_handling():
     # In our case it's /dashboard
     return redirect('/protected')
 
+
 @app.route('/')
 def index():
     if is_authed(session):
@@ -50,14 +68,16 @@ def index():
     else:
         return render_template('index.html')
 
+
 @app.route('/<username>')
 def user_page(username):
-    resp = make_response(render_template("user.html")) # change thsi
+    resp = make_response(render_template("user.html"))  # change thsi
     resp.set_cookie('username', username)
     return resp
 
+
 @app.route('/post', methods=['GET', 'POST'])
-@helpers.requires_auth
+@requires_auth
 def hande_new_post():
     if request.method == "POST":
         body = request.json
@@ -70,6 +90,8 @@ def hande_new_post():
         user_id = request.args.get('user_id')
         print user_id, post_id
         return jsonify(data.get_data(user_id, post_id))
+    else:
+        return 400
 
 if __name__ == '__main__':
     app.run(port=3000, debug=True)
