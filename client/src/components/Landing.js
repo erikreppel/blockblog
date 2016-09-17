@@ -1,11 +1,12 @@
 import React from 'react';
+import Auth0 from 'auth0-js';
 
 const Landing = () => {
-  // let auth0 = new Auth0({
-  //   domain:         'michaelreiter.auth0.com',
-  //   clientID:       '98aRn2p8ptAZo7acb4Rb6mQYVIwSRh1m',
-  //   callbackURL:    'http://localhost:3000/'
-  // });
+  let auth0 = new Auth0({
+    domain:         'erikreppel.auth0.com',
+    clientID:       'M3Iy4EYCRTD7uaGpBCE5nfAXMsCukFAV',
+    callbackURL:    `${window.location.href}callback`
+  });
 
   let userRef;
   let passwordRef;
@@ -21,34 +22,32 @@ const Landing = () => {
         passwordRef = node;
       }}/>
       <br />
-      <button className="button button-primary signin-db" onClick={() => {
+      <button id='login' className="button button-primary" onClick={() => {
         const username = userRef.value.trim();
         const password = passwordRef.value.trim();
-        // auth0.signin({
-        //   connection: 'foo',
-        //   username: userRef,
-        //   password: passwordRef
-        // },
-        // (err, profile, id_token, access_token, state) => {
-        //     // store the profile and id_token in a cookie or local storage
-        //     $.cookie('profile', profile);
-        //     $.cookie('id_token', id_token);
-        // });
+        auth0.login({
+          connection: 'db-conn',
+          username: userRef,
+          password: passwordRef
+        });
       }}>Log in</button>
-      <button className="button button-primary signin-db" onClick={() => {
+      <button id='signup' className="button button-primary" onClick={() => {
         const username = userRef.value.trim();
         const password = passwordRef.value.trim();
-        // auth0.signin({
-        //   connection: 'foo',
-        //   username: userRef,
-        //   password: passwordRef
-        // },
-        // (err, profile, id_token, access_token, state) => {
-        //     // store the profile and id_token in a cookie or local storage
-        //     $.cookie('profile', profile);
-        //     $.cookie('id_token', id_token);
-        // });
+        auth0.signup({
+          connection: 'db-conn',
+          username: userRef,
+          password: passwordRef
+        });
       }}>Sign up</button>
+      <button id='GitHub' className="button button-primary" onClick={() => {
+        const username = userRef.value.trim();
+        const password = passwordRef.value.trim();
+        console.log(username, )
+        auth0.login({
+          connection: 'google-oauth2'
+        });
+      }}>Sign in with Google</button>
     </div>
   );
 };
