@@ -42,7 +42,11 @@ module.exports = {
     ],
     profile: [
       require.resolve('./polyfills'),
-      path.join(paths.appSrc, 'newsfeed')
+      path.join(paths.appSrc, 'profile')
+    ],
+    login: [
+      require.resolve('./polyfills'),
+      path.join(paths.appSrc, 'login')
     ]
   },
   output: {
