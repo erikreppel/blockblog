@@ -1,5 +1,4 @@
 import React from 'react';
-import Create from './Create';
 import Feed from './Feed';
 
 const Home = () => {
@@ -8,7 +7,7 @@ const Home = () => {
       user: 'Michael',
       user_id: '1',
       body: 'Hello, world!',
-      timestamp: Date.now(),
+      timestamp: Date.now() - 1,
       url: '',
       tags: []
     },
@@ -16,7 +15,7 @@ const Home = () => {
       user: 'Erik',
       user_id: '2',
       body: 'Hello, world!',
-      timestamp: Date.now(),
+      timestamp: Date.now() - 2,
       url: '',
       tags: []
     },
@@ -24,7 +23,7 @@ const Home = () => {
       user: 'Spence',
       user_id: '3',
       body: 'Hello, world!',
-      timestamp: Date.now(),
+      timestamp: Date.now() - 3,
       url: '',
       tags: []
     }
@@ -32,10 +31,7 @@ const Home = () => {
 
   return (
     <div className='home container'>
-      <div className='newsfeed'>
-        <Create />
-        <Feed posts={posts} />
-      </div>
+      <Feed posts={posts} />
     </div>
   );
 };

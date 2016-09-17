@@ -1,31 +1,33 @@
 import React from 'react';
 
 const sendPost = (body) => {
-  // change url to         window.location.href + 'post'      for prod
-  fetch('http://localhost:3005/post', {
+  const post = {
+    user: 'Michael',
+    user_id: '123',
+    body: body,
+    timestamp: Date.now(),
+    url: '',
+    tags: []
+  };
+
+  // change url to         window.location.href + 'post'          for prod
+  return fetch('http://localhost:3005/post', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({
-      user: 'Michael',
-      user_id: '123',
-      body: body,
-      timestamp: Date.now(),
-      url: '',
-      tags: []
-    })
+    body: JSON.stringify(post)
   })
   .then(response => {
     return response.json();
   })
   .then(json => {
-    console.log(json);
+    return post;
   });
 }
 
-const Create = () => {
+const Create = ({ onCreate }) => {
   let inputRef;
 
   return (
@@ -36,7 +38,13 @@ const Create = () => {
         if (!body) {
           return;
         }
-        sendPost(body);
+        sendPost(body)
+        .then(post => {
+          onCreate(post);
+        })
+        .catch(err => {
+          console.log(err);
+        });
         inputRef.value = '';
       }}>
         <img
