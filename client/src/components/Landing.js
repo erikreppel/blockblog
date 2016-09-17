@@ -10,36 +10,38 @@ const Landing = () => {
 
   let userRef;
   let passwordRef;
-
+  /*
+  <input type="text" placeholder="Email" ref={node => {
+    userRef = node;
+  }}/>
+  <br />
+  <input type="password" placeholder="Password" ref={node => {
+    passwordRef = node;
+  }}/>
+  <br />
+  <button id='login' className="button button-primary" onClick={() => {
+    const username = userRef.value.trim();
+    const password = passwordRef.value.trim();
+    auth0.login({
+      connection: 'db-conn',
+      username: userRef,
+      password: passwordRef
+    });
+  }}>Log in</button>
+  <button id='signup' className="button button-primary" onClick={() => {
+    const username = userRef.value.trim();
+    const password = passwordRef.value.trim();
+    auth0.signup({
+      connection: 'db-conn',
+      username: userRef,
+      password: passwordRef
+    });
+  }}>Sign up</button>
+  */
+  
   return (
     <div className='landing row'>
       <h1>// block_blog</h1>
-      <input type="text" placeholder="Email" ref={node => {
-        userRef = node;
-      }}/>
-      <br />
-      <input type="password" placeholder="Password" ref={node => {
-        passwordRef = node;
-      }}/>
-      <br />
-      <button id='login' className="button button-primary" onClick={() => {
-        const username = userRef.value.trim();
-        const password = passwordRef.value.trim();
-        auth0.login({
-          connection: 'db-conn',
-          username: userRef,
-          password: passwordRef
-        });
-      }}>Log in</button>
-      <button id='signup' className="button button-primary" onClick={() => {
-        const username = userRef.value.trim();
-        const password = passwordRef.value.trim();
-        auth0.signup({
-          connection: 'db-conn',
-          username: userRef,
-          password: passwordRef
-        });
-      }}>Sign up</button>
       <button id='Google' className="button button-primary" onClick={() => {
         const username = userRef.value.trim();
         const password = passwordRef.value.trim();

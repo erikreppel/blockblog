@@ -1,8 +1,8 @@
 import React from 'react';
 
 const sendPost = (body) => {
-  console.log(body);
-  fetch(window.location.href + 'post', {
+  // change url to         window.location.href + 'post'      for prod
+  fetch('http://localhost:3005/post', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -18,7 +18,10 @@ const sendPost = (body) => {
     })
   })
   .then(response => {
-    console.log(response.json());
+    return response.json();
+  })
+  .then(json => {
+    console.log(json);
   });
 }
 
