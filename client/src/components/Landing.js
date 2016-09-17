@@ -4,7 +4,7 @@ import Auth0 from 'auth0-js';
 const Landing = () => {
   let auth0 = new Auth0({
     domain:         'erikreppel.auth0.com',
-    clientID:       'M3Iy4EYCRTD7uaGpBCE5nfAXMsCukFAV',
+    clientID:       '35xtzL9xQ3onulOU5JhFrLgrKni1Lrya',
     callbackURL:    `${window.location.href}callback`
   });
 
