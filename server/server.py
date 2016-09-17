@@ -9,7 +9,6 @@ from random import randint
 app = Flask(__name__)
 app.secret_key = '@mgonto'
 
-
 def is_authed(session):
     return 'profile' in session
 
@@ -52,7 +51,7 @@ def index():
 
 @app.route('/<username>')
 def user_page(username):
-    resp = make_response(render_template("user.html")) # change thsi
+    resp = make_response(render_template("user.html")) # change this
     resp.set_cookie('username', username)
     return resp
 
