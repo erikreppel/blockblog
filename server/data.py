@@ -1,14 +1,25 @@
-import redis
+from gcloud import datastore
+import helpers
+
+client = datastore.Client()
 
 
-def set_data(user_id, post_id, data):
-    r = redis.StrictRedis(host='localhost', port=6379, db=0)
-    key = user_id + str(post_id)
-    r.set(key, data)
+def submit_post(user_id, post_id, data):
+    post_key = client.key('Posts', post_id)
+    user_key = client.key('Users', user_id)
+    user_entity = datastore.Entity(key=user_key)
+    post_entity = datastore.Entity(key=post_key)
+
+    current_posts = helpers.load_entity(client.get(user_key))
+    current_posts['posts'].append(data)
+
+    user_entity.update(data)
+    client.put(user_entity)
+    post_entity.update(data)
+    client.put(post_entity)
 
 
 def get_data(user_id, post_id):
-    r = redis.StrictRedis(host='localhost', port=6379, db=0)    
-    key = user_id + str(post_id)
-    data = r.get(key)
+    key = client.key('Posts', post_id)
+    data = helpers.load_entity(client.get(key))
     return data
