@@ -40,10 +40,10 @@ const Landing = () => {
           password: passwordRef
         });
       }}>Sign up</button>
-      <button id='GitHub' className="button button-primary" onClick={() => {
+      <button id='Google' className="button button-primary" onClick={() => {
         const username = userRef.value.trim();
         const password = passwordRef.value.trim();
-        console.log(username, )
+        // console.log(username, password);
         auth0.login({
           connection: 'google-oauth2'
         });
