@@ -1,0 +1,42 @@
+api.blockblog.com
+
+POST /tweet
+HEADER:
+AUTH: JWT
+BODY: {
+  user: "",
+  user_id: ""
+  body: "",
+  timestamp: Datetime,
+  url: "",
+  tags: [], 
+}
+Return: {
+  id: "",
+  success: "",
+
+}
+
+GET /tweet?user_id=""?tweet_id=""
+{
+  user: "",
+  user_id: ""
+  body: "",
+  timestamp: Datetime,
+  url: "",
+  tags: [], 
+}
+
+GET /feed?user_id="" //user_id is the person making the request
+
+GET /user/:user/tweets
+[
+{
+  user: "",
+  user_id: ""
+  body: "",
+  timestamp: Datetime,
+  url: "",
+  tags: [], 
+}
+]
