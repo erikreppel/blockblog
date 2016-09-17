@@ -103,8 +103,13 @@ module.exports = {
       // "style" loader turns CSS into JS modules that inject <style> tags.
       // In production, we use a plugin to extract that CSS to a file, but
       // in development "style" loader enables hot editing of CSS.
+      // {
+      //   test:   /\.css$/,
+      //   include: paths.appSrc,
+      //   loader: "style-loader!css-loader!postcss-loader"
+      // },
       {
-        test: /\.sass$/,
+        test: /\.(sass|css)$/,
         include: paths.appSrc,
         loaders: ["style", "css", "sass"]
       },
