@@ -1,21 +1,39 @@
 import React from 'react';
 
 const sendPost = (body) => {
-  console.log(body);
+  // change url to         window.location.href + 'post'      for prod
+  fetch('http://localhost:3005/post', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      user: 'Michael',
+      user_id: '123',
+      body: body,
+      timestamp: Date.now(),
+      url: '',
+      tags: []
+    })
+  })
+  .then(response => {
+    return response.json();
+  })
+  .then(json => {
+    console.log(json);
+  });
 }
 
 const Create = () => {
   let inputRef;
-  let buttonIsEnabled;
 
   return (
     <div className='create'>
       <form onSubmit={e => {
         e.preventDefault();
         const body = inputRef.value.trim();
-        buttonIsEnabled = !!body;
-        console.log(buttonIsEnabled);
-        if (!buttonIsEnabled) {
+        if (!body) {
           return;
         }
         sendPost(body);
@@ -32,7 +50,6 @@ const Create = () => {
         <button
           className='button button-primary'
           type='submit'
-          disabled={buttonIsEnabled}
           >Post</button>
       </form>
     </div>
