@@ -5,15 +5,24 @@ from flask import (Flask,
                    redirect,
                    render_template,
                    make_response)
+from gcloud import datastore
 import requests
 # import helpers
 import data
 from functools import wraps
 import json
 from random import randint
+import hashlib
+import time
 
 app = Flask(__name__)
 app.secret_key = '@mgonto'
+client = datastore.Client()
+
+
+def user_id_from_session(session):
+    user_info = session['profile']
+    return hashlib.sha256(user_info['nickname'] + user_info['user_id'])
 
 
 def is_authed(session):
@@ -45,19 +54,29 @@ def callback_handling():
         'code': code,
         'grant_type': 'authorization_code'
     }
-    token_info = requests.post(token_url, data=json.dumps(token_payload), headers = json_header).json()
+    token_info = requests.post(token_url,
+                               data=json.dumps(token_payload),
+                               headers=json_header
+                               ).json()
 
     user_url = "https://{domain}/userinfo?access_token={access_token}" \
-        .format(domain='erikreppel.auth0.com', access_token=token_info['access_token'])
+        .format(domain='erikreppel.auth0.com',
+                access_token=token_info['access_token'])
 
     user_info = requests.get(user_url).json()
-
     # We're saving all user information into the session
+    user_id = hashlib.sha256(user_info['nickname'] + user_info['user_id'])
     session['profile'] = user_info
-
+    key = client.key('Users', user_id)
+    resp = client.get(key)
+    if not resp:
+        client.put(key, {'user_info': user_info,
+                         'signup_time': time.time(),
+                         'following': [],
+                         'posts': {}})
     # Redirect to the User logged in page that you want here
     # In our case it's /dashboard
-    return redirect('/protected')
+    return redirect('/')
 
 
 @app.route('/')
@@ -76,14 +95,45 @@ def user_page(username):
     return resp
 
 
-@app.route('/post', methods=['GET', 'POST'])
+@app.route('/<username>/follow', methods=['POST'])
 @requires_auth
+def follow_new_user(username):
+    if request.method != 'POST':
+        return 405
+
+    user_id = request.args.get('user_id')
+    body = request.json
+    user_id = user_id_from_session(session)
+    if user_id != username:
+        return 403
+    key = client.key('Users', user_id)
+    profile = client.get(key)
+    profile['following'].append(body['user_id'])
+    client.put(key, profile)
+    return 200
+
+
+@app.route('/<user>/posts')
+def get_posts(user):
+    if request.headers.get('Content-Type') == 'application/json':
+        key = client.key('Users', user)
+        profile = client.get(key)
+        return profile['posts']
+    else:
+        return 403
+
+
+@app.route('/post', methods=['GET', 'POST'])
+# @requires_auth
 def hande_new_post():
     if request.method == "POST":
-        body = request.json
-        post_id = randint(0, 100000)
-        data.set_data(body['user_id'], post_id, body)
-        return jsonify({"id": post_id, "success": True})
+        if is_authed(session):
+            body = request.json
+            post_id = randint(0, 100000)
+            data.set_data(body['user_id'], post_id, body)
+            return jsonify({"id": post_id, "success": True})
+        else:
+            return 400
 
     if request.method == "GET":
         post_id = request.args.get('post_id')
