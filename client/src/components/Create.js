@@ -7,8 +7,7 @@ const sendPost = body => {
     user_id: getCookie('user_id'),
     body: body,
     timestamp: Date.now(),
-    url: '',
-    tags: []
+    url: ''
   };
 
   // change url to         window.location.href + 'post'          for prod
