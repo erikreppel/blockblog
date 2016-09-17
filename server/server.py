@@ -22,7 +22,7 @@ client = datastore.Client()
 
 def user_id_from_session(session):
     user_info = session['profile']
-    return hashlib.sha256(user_info['nickname'] + user_info['user_id'])
+    return hashlib.sha256(user_info['nickname'] + user_info['user_id'])[:9]
 
 
 def is_authed(session):
@@ -86,18 +86,43 @@ def callback_handling():
     return redirect('/')
 
 
+@app.route('/post', methods=['GET', 'POST'])
+# @requires_auth
+def hande_new_post():
+    if request.method == "POST":
+        # if is_authed(session):
+        body = request.json
+        post_id = randint(0, 100000)
+        data.set_data(body['user_id'], post_id, body)
+        return jsonify({"id": post_id, "success": True})
+        # else:
+        #     return 400
+
+    if request.method == "GET":
+        post_id = request.args.get('post_id')
+        user_id = request.args.get('user_id')
+        print user_id, post_id
+        return jsonify(data.get_data(user_id, post_id))
+    else:
+        return 400
+
+
 @app.route('/')
 def index():
     if is_authed(session):
-        return render_template('index.html')
+        user_id = user_id_from_session(session)
+        response = make_response(render_template("index.html"))
+        response.set_cookie('username', session['nickname'])
+        response.set_cookie('user_id', user_id)
+        return response
     else:
         return render_template('login.html')
 
 
-@app.route('/<username>')
-def user_page(username):
-    resp = make_response(render_template("user.html"))  # change this
-    resp.set_cookie('username', username)
+@app.route('/<user_id>')
+def user_page(user_id):
+    resp = make_response(render_template("profile.html"))
+    resp.set_cookie('user_id', user_id)
     return resp
 
 
@@ -130,25 +155,6 @@ def get_posts(user):
         return 403
 
 
-@app.route('/post', methods=['GET', 'POST'])
-# @requires_auth
-def hande_new_post():
-    if request.method == "POST":
-        if is_authed(session):
-            body = request.json
-            post_id = randint(0, 100000)
-            data.set_data(body['user_id'], post_id, body)
-            return jsonify({"id": post_id, "success": True})
-        else:
-            return 400
-
-    if request.method == "GET":
-        post_id = request.args.get('post_id')
-        user_id = request.args.get('user_id')
-        print user_id, post_id
-        return jsonify(data.get_data(user_id, post_id))
-    else:
-        return 400
 
 if __name__ == '__main__':
     app.run(port=3005, debug=True)
