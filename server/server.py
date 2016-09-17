@@ -71,13 +71,13 @@ def callback_handling():
     user_id = hashlib.sha256(
             user_info['nickname'] + str(user_info['user_id'])
         ).hexdigest()[:7]
+    print 'user id############################', user_id
     session['profile'] = user_info
     key = client.key('Users', user_id)
     resp = client.get(key)
     if not resp:
         entity = datastore.Entity(key=key)
         new_user = {
-            'user_id': user_id,
             'username': user_info['nickname'],
             'signup_timestamp': time.time(),
             'following': [],
@@ -123,11 +123,12 @@ def index():
         return render_template('login.html')
 
 
-@app.route('/<user_id>')
+@app.route('/user/<user_id>')
 def user_page(user_id):
     resp = make_response(render_template("profile.html"))
     key = datastore('User', user_id)
     user = helpers.load_entity(client.get(key))
+    print "!!!!!!!!!!", user
     resp.set_cookie('user_id', user_id)
     resp.set_cookie('username', user['username'])
     return resp
