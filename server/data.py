@@ -11,10 +11,10 @@ def submit_post(user_id, post_id, data):
     post_entity = datastore.Entity(key=post_key)
 
     current_posts = helpers.load_entity(client.get(user_key))
-    current_posts['posts'].append(data)
-    user_entity.update(current_posts)
+    current_posts['posts'].append(post_id)
+    user_entity.update(helpers.make_entity(current_posts))
     client.put(user_entity)
-    post_entity.update(data)
+    post_entity.update(helpers.make_entity(data))
     client.put(post_entity)
 
 
