@@ -34,7 +34,21 @@ const Landing = () => {
         //     $.cookie('profile', profile);
         //     $.cookie('id_token', id_token);
         // });
-      }}>Sign in</button>
+      }}>Log in</button>
+      <button className="button button-primary signin-db" onClick={() => {
+        const username = userRef.value.trim();
+        const password = passwordRef.value.trim();
+        // auth0.signin({
+        //   connection: 'foo',
+        //   username: userRef,
+        //   password: passwordRef
+        // },
+        // (err, profile, id_token, access_token, state) => {
+        //     // store the profile and id_token in a cookie or local storage
+        //     $.cookie('profile', profile);
+        //     $.cookie('id_token', id_token);
+        // });
+      }}>Sign up</button>
     </div>
   );
 };
