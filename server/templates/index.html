@@ -1,0 +1,19 @@
+<html>
+
+<body>
+    <script src="https://cdn.auth0.com/js/lock/10.2/lock.min.js"></script>
+    <script type="text/javascript">
+        var lock = new Auth0Lock('M3Iy4EYCRTD7uaGpBCE5nfAXMsCukFAV', 'erikreppel.auth0.com', {
+            auth: {
+            redirectUrl: 'http://localhost:3000/callback',
+            responseType: 'code',
+            params: {
+                scope: 'openid email' // Learn about scopes: https://auth0.com/docs/scopes
+            }
+            }
+        });
+    </script>
+    <button onclick="lock.show();">Login</button>
+</body>
+
+</html>
