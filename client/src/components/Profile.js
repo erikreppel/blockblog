@@ -1,42 +1,28 @@
 import React from 'react';
-import Feed from './Feed'
+import UserDetails from './UserDetails';
+import Feed from './Feed';
 
-const Profile = ({ profile }) => {
-  const posts = [
-    {
-      user: 'Michael',
-      user_id: '1',
-      body: 'Hello, world!',
-      timestamp: Date.now(),
-      url: '',
-      tags: []
-    },
-    {
-      user: 'Erik',
-      user_id: '2',
-      body: 'Hello, world!',
-      timestamp: Date.now(),
-      url: '',
-      tags: []
-    },
-    {
-      user: 'Spence',
-      user_id: '3',
-      body: 'Hello, world!',
-      timestamp: Date.now(),
-      url: '',
-      tags: []
-    }
-  ];
+const Profile = ({ user_id }) => {
+  // change url to         window.location.href + 'users/user'          for prod
+  fetch(`http://localhost:3005/user/${user_id}`)
+  .then(response => {
+    return response.json();
+  })
+  .then(profile => {
+    const result = JSON.parse(profile.posts);
+    return result;
+  });
 
   return (
-    <div className='profile'>
-      <Feed posts={posts} />
+    <div className='profile container'>
+      <UserDetails user={'Michael'} />
+      <Feed posts={[]} />
     </div>
   );
 };
 
-Profile.propTypes = {
-};
+// Profile.propTypes = {
+
+// };
 
 export default Profile;
