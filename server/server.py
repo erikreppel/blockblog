@@ -48,9 +48,9 @@ def callback_handling():
     token_url = "https://{domain}/oauth/token".format(domain='erikreppel.auth0.com')
 
     token_payload = {
-        'client_id': 'M3Iy4EYCRTD7uaGpBCE5nfAXMsCukFAV',
-        'client_secret': 'iF7KTOHLyPb8zZUgZMaDak4jIXfu2LDEVPr6FWoSqtBWBxy8xxqJysOHM9d9FdP1',
-        'redirect_uri': 'http://localhost:3000/protected',
+        'client_id': '35xtzL9xQ3onulOU5JhFrLgrKni1Lrya',
+        'client_secret': 'VIVKgyzQ2WtmZp0XaIcJGyOOEye11KiIppG2a5kJWTKDgrlikwK2io9mOLOpqKLk',
+        'redirect_uri': 'http://localhost:3005/',
         'code': code,
         'grant_type': 'authorization_code'
     }
@@ -65,15 +65,19 @@ def callback_handling():
 
     user_info = requests.get(user_url).json()
     # We're saving all user information into the session
-    user_id = hashlib.sha256(user_info['nickname'] + user_info['user_id'])
+    user_id = hashlib.sha256(
+            user_info['nickname'] + str(user_info['user_id'])
+        ).hexdigest()
     session['profile'] = user_info
-    key = client.key('Users', user_id)
-    resp = client.get(key)
-    if not resp:
-        client.put(key, {'user_info': user_info,
-                         'signup_time': time.time(),
-                         'following': [],
-                         'posts': {}})
+    # key = client.key('Users', user_id)
+    # resp = client.get(key)
+    # if not resp:
+    #     entity = datastore.Entity(key=key)
+    #     entity['user_info'] = user_info,
+    #     entity['signup_time'] = 123,
+    #     entity['following'] = '',
+    #     entity['posts'] = ''
+    #     client.put(entity)
     # Redirect to the User logged in page that you want here
     # In our case it's /dashboard
     return redirect('/')
