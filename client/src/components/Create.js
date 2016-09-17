@@ -1,9 +1,10 @@
 import React from 'react';
+import { getCookie } from '../helpers';
 
 const sendPost = body => {
   const post = {
     user: 'Michael',
-    user_id: '123',
+    user_id: getCookie('user_id'),
     body: body,
     timestamp: Date.now(),
     url: '',
