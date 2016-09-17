@@ -11,7 +11,6 @@ import helpers
 import data
 from functools import wraps
 import json
-from random import randint
 import hashlib
 import time
 
@@ -67,11 +66,9 @@ def callback_handling():
 
     user_info = requests.get(user_url).json()
     # We're saving all user information into the session
-    print user_info
     user_id = hashlib.sha256(
             user_info['nickname'] + str(user_info['user_id'])
         ).hexdigest()[:7]
-    print 'user id############################', user_id
     session['profile'] = user_info
     key = client.key('Users', user_id)
     resp = client.get(key)
@@ -96,8 +93,8 @@ def hande_new_post():
     if request.method == "POST":
         # if is_authed(session):
         body = request.json
-        post_id = randint(0, 100000)
-        data.set_data(body['user_id'], post_id, body)
+        post_id = hashlib.sha256(json.dumps(body)).hexdigest()[:11]
+        data.submit_post(body['user_id'], post_id, body)
         return jsonify({"id": post_id, "success": True})
         # else:
         #     return 400
@@ -128,7 +125,6 @@ def user_page(user_id):
     resp = make_response(render_template("profile.html"))
     key = datastore('User', user_id)
     user = helpers.load_entity(client.get(key))
-    print "!!!!!!!!!!", user
     resp.set_cookie('user_id', user_id)
     resp.set_cookie('username', user['username'])
     return resp
