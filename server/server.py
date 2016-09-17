@@ -15,7 +15,7 @@ from random import randint
 import hashlib
 import time
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 app.secret_key = '@mgonto'
 client = datastore.Client()
 
@@ -82,10 +82,9 @@ def callback_handling():
 @app.route('/')
 def index():
     if is_authed(session):
-        return "Newsfeed goes here"
-        # return render_template('newsfeed.html')
-    else:
         return render_template('index.html')
+    else:
+        return render_template('login.html')
 
 
 @app.route('/<username>')
@@ -144,4 +143,4 @@ def hande_new_post():
         return 400
 
 if __name__ == '__main__':
-    app.run(port=3000, debug=True)
+    app.run(port=3005, debug=True)
