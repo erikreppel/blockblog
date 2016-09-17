@@ -3,6 +3,10 @@ import Post from './Post';
 import Create from './Create';
 
 const Feed = React.createClass({
+  propTypes: {
+    posts: React.PropTypes.array.isRequired
+  },
+
   getInitialState:function() {
     return {
       posts: this.props.posts
