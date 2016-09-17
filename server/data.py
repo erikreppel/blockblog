@@ -12,8 +12,7 @@ def submit_post(user_id, post_id, data):
 
     current_posts = helpers.load_entity(client.get(user_key))
     current_posts['posts'].append(data)
-
-    user_entity.update(data)
+    user_entity.update(current_posts)
     client.put(user_entity)
     post_entity.update(data)
     client.put(post_entity)
