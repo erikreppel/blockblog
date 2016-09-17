@@ -77,7 +77,7 @@ def user_page(username):
 
 
 @app.route('/post', methods=['GET', 'POST'])
-@requires_auth
+# @requires_auth
 def hande_new_post():
     if request.method == "POST":
         body = request.json
@@ -94,4 +94,4 @@ def hande_new_post():
         return 400
 
 if __name__ == '__main__':
-    app.run(port=3000, debug=True)
+    app.run(port=3001, debug=True)
