@@ -37,6 +37,6 @@ const Landing = () => {
       }}>Sign in</button>
     </div>
   );
-}
+};
 
 export default Landing;
