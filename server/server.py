@@ -157,7 +157,7 @@ def follow_new_user(username):
 def get_posts(user_id):
     if request.headers.get('Content-Type') == 'application/json':
         print 'here'
-        key = client.key('User', user_id)
+        key = client.key('Users', user_id)
         client_response = client.get(key)
         if client_response:
             user = helpers.load_entity(client_response)
