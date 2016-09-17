@@ -22,7 +22,9 @@ client = datastore.Client()
 
 def user_id_from_session(session):
     user_info = session['profile']
-    return hashlib.sha256(user_info['nickname'] + user_info['user_id'])[:9]
+    return hashlib.sha256(
+            user_info['nickname'] + user_info['user_id']
+        ).hexdigest()[:7]
 
 
 def is_authed(session):
@@ -65,6 +67,7 @@ def callback_handling():
 
     user_info = requests.get(user_url).json()
     # We're saving all user information into the session
+    print user_info
     user_id = hashlib.sha256(
             user_info['nickname'] + str(user_info['user_id'])
         ).hexdigest()
@@ -75,6 +78,7 @@ def callback_handling():
         entity = datastore.Entity(key=key)
         new_user = {
             'user_id': user_id,
+            'username': user_info['nickname'],
             'signup_timestamp': time.time(),
             'following': [],
             'posts': []
@@ -112,7 +116,7 @@ def index():
     if is_authed(session):
         user_id = user_id_from_session(session)
         response = make_response(render_template("index.html"))
-        response.set_cookie('username', session['nickname'])
+        response.set_cookie('username', session['profile']['nickname'])
         response.set_cookie('user_id', user_id)
         return response
     else:
@@ -122,7 +126,10 @@ def index():
 @app.route('/<user_id>')
 def user_page(user_id):
     resp = make_response(render_template("profile.html"))
+    key = datastore('User', user_id)
+    user = helpers.load_entity(client.get(key))
     resp.set_cookie('user_id', user_id)
+    resp.set_cookie('username', user['username'])
     return resp
 
 
@@ -153,7 +160,6 @@ def get_posts(user):
         return profile
     else:
         return 403
-
 
 
 if __name__ == '__main__':
