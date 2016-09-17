@@ -57,6 +57,7 @@ def user_page(username):
     return resp
 
 @app.route('/post', methods=['GET', 'POST'])
+@helpers.requires_auth
 def hande_new_post():
     if request.method == "POST":
         body = request.json
