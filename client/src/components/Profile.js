@@ -4,7 +4,13 @@ import Feed from './Feed';
 
 const Profile = ({ user_id }) => {
   // change url to         window.location.href + 'users/user'          for prod
-  fetch(`http://localhost:3005/user/${user_id}`)
+  fetch(`http://localhost:3005/users/${user_id}`, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  })
   .then(response => {
     return response.json();
   })
