@@ -153,12 +153,23 @@ def follow_new_user(username):
     return 200
 
 
-@app.route('/users/<user>')
-def get_posts(user):
+@app.route('/users/<user_id>')
+def get_posts(user_id):
     if request.headers.get('Content-Type') == 'application/json':
-        key = client.key('Users', user)
-        profile = helpers.load_entity(client.get(key))
-        return profile
+        print 'here'
+        key = client.key('User', user_id)
+        client_response = client.get(key)
+        if client_response:
+            user = helpers.load_entity(client_response)
+            resp = make_response(jsonify(user))
+            resp.set_cookie('user_id', user_id)
+            resp.set_cookie('username', user['username'])
+            # key = client.key('Users', user)
+            # profile = helpers.load_entity(client.get(key))
+            return resp
+        else:
+            print 'error'
+            return 500
     else:
         return 403
 
