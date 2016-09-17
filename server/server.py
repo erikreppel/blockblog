@@ -70,7 +70,7 @@ def callback_handling():
     print user_info
     user_id = hashlib.sha256(
             user_info['nickname'] + str(user_info['user_id'])
-        ).hexdigest()
+        ).hexdigest()[:7]
     session['profile'] = user_info
     key = client.key('Users', user_id)
     resp = client.get(key)
