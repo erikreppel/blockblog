@@ -1,8 +1,8 @@
 import React from 'react';
-import Block from './Block';
+import Post from './Post';
 
 const Feed = () => {
-  const blocks = [
+  const posts = [
     {
       user: 'Michael',
       user_id: '1',
@@ -32,8 +32,8 @@ const Feed = () => {
   return (
     <div className='feed'>
       {
-        blocks.map(block => {
-          return <Block block={block} key={block.user_id} />
+        posts.map(post => {
+          return <Post post={post} key={post.user_id} />
         })
       }
     </div>
