@@ -1,12 +1,13 @@
 import React from 'react';
-import Feed from './Feed'
+import Create from './Create';
+import Feed from './Feed';
 
 const Home = () => {
   const posts = [
     {
       user: 'Michael',
       user_id: '1',
-      body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      body: 'Hello, world!',
       timestamp: Date.now(),
       url: '',
       tags: []
@@ -14,7 +15,7 @@ const Home = () => {
     {
       user: 'Erik',
       user_id: '2',
-      body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      body: 'Hello, world!',
       timestamp: Date.now(),
       url: '',
       tags: []
@@ -22,7 +23,7 @@ const Home = () => {
     {
       user: 'Spence',
       user_id: '3',
-      body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      body: 'Hello, world!',
       timestamp: Date.now(),
       url: '',
       tags: []
@@ -31,12 +32,16 @@ const Home = () => {
 
   return (
     <div className='home container'>
-      <Feed posts={posts} />
+      <div className='newsfeed'>
+        <Create />
+        <Feed posts={posts} />
+      </div>
     </div>
   );
 };
 
 Home.propTypes = {
+  //user?
 };
 
 export default Home;
