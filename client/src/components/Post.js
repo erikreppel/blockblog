@@ -2,6 +2,7 @@ import React from 'react';
 const moment = require('moment');
 
 const Post = ({ post }) => {
+  const postDetails = `${moment(post.timestamp).fromNow()} - uid: ${post.user_id}`;
   return (
     <div className='post'>
       <img
@@ -12,7 +13,7 @@ const Post = ({ post }) => {
       <h1 className='username'>
         <a href={`http://localhost:3000/${post.user}`}>{post.user}</a>
       </h1>
-      <p className='timestamp'>{moment(post.timestamp).fromNow()}</p>
+      <p className='timestamp'>{postDetails}</p>
       <p className='body'>{post.body}</p>
     </div>
   );

@@ -7,7 +7,7 @@ const Home = () => {
       user: 'Michael',
       user_id: '1',
       body: 'Hello, world!',
-      timestamp: Date.now() - 1,
+      timestamp: Date.now() - 1000000,
       url: '',
       tags: []
     },
@@ -15,7 +15,7 @@ const Home = () => {
       user: 'Erik',
       user_id: '2',
       body: 'Hello, world!',
-      timestamp: Date.now() - 2,
+      timestamp: Date.now() - 2000000,
       url: '',
       tags: []
     },
@@ -23,7 +23,7 @@ const Home = () => {
       user: 'Spence',
       user_id: '3',
       body: 'Hello, world!',
-      timestamp: Date.now() - 3,
+      timestamp: Date.now() - 3000000,
       url: '',
       tags: []
     }
