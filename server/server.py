@@ -6,7 +6,7 @@ from flask import (Flask,
                    render_template,
                    make_response)
 import requests
-import helpers
+# import helpers
 import data
 from functools import wraps
 import json
@@ -71,7 +71,7 @@ def index():
 
 @app.route('/<username>')
 def user_page(username):
-    resp = make_response(render_template("user.html"))  # change thsi
+    resp = make_response(render_template("user.html"))  # change this
     resp.set_cookie('username', username)
     return resp
 
