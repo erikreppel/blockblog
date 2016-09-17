@@ -7,7 +7,7 @@ from flask import (Flask,
                    make_response)
 from gcloud import datastore
 import requests
-# import helpers
+import helpers
 import data
 from functools import wraps
 import json
@@ -69,15 +69,18 @@ def callback_handling():
             user_info['nickname'] + str(user_info['user_id'])
         ).hexdigest()
     session['profile'] = user_info
-    # key = client.key('Users', user_id)
-    # resp = client.get(key)
-    # if not resp:
-    #     entity = datastore.Entity(key=key)
-    #     entity['user_info'] = user_info,
-    #     entity['signup_time'] = 123,
-    #     entity['following'] = '',
-    #     entity['posts'] = ''
-    #     client.put(entity)
+    key = client.key('Users', user_id)
+    resp = client.get(key)
+    if not resp:
+        entity = datastore.Entity(key=key)
+        new_user = {
+            'user_id': user_id,
+            'signup_timestamp': time.time(),
+            'following': [],
+            'posts': []
+        }
+        entity.update(helpers.make_entity(new_user))
+        client.put(entity)
     # Redirect to the User logged in page that you want here
     # In our case it's /dashboard
     return redirect('/')
@@ -98,7 +101,7 @@ def user_page(username):
     return resp
 
 
-@app.route('/<username>/follow', methods=['POST'])
+@app.route('/users/<username>/follow', methods=['POST'])
 @requires_auth
 def follow_new_user(username):
     if request.method != 'POST':
@@ -110,18 +113,19 @@ def follow_new_user(username):
     if user_id != username:
         return 403
     key = client.key('Users', user_id)
-    profile = client.get(key)
+    profile = helpers.load_entity(client.get(key))
     profile['following'].append(body['user_id'])
-    client.put(key, profile)
+    entity = datastore.Entity(key=key)
+    entity.update(helpers.make_entity(profile))
     return 200
 
 
-@app.route('/<user>/posts')
+@app.route('/users/<user>')
 def get_posts(user):
     if request.headers.get('Content-Type') == 'application/json':
         key = client.key('Users', user)
-        profile = client.get(key)
-        return profile['posts']
+        profile = helpers.load_entity(client.get(key))
+        return profile
     else:
         return 403
 
