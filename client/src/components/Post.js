@@ -9,9 +9,9 @@ const Post = ({ post }) => {
         alt='avatar'
         src='https://placeholdit.imgix.net/~text?txtsize=28&bg=0099ff&txtclr=ffffff&txt=300%C3%97300&w=300&h=300&fm=png'>
       </img>
-      <a href={`http://localhost:3000/${post.user_id}`}>
-        <h1 className='username'>{post.user}</h1>
-      </a>
+      <h1 className='username'>
+        <a href={`http://localhost:3000/${post.user}`}>{post.user}</a>
+      </h1>
       <p className='timestamp'>{moment(post.timestamp).fromNow()}</p>
       <p className='body'>{post.body}</p>
     </div>

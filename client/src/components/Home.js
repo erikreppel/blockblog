@@ -6,7 +6,7 @@ const Home = () => {
     {
       user: 'Michael',
       user_id: '1',
-      body: 'Hello, world!',
+      body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       timestamp: Date.now(),
       url: '',
       tags: []
@@ -14,7 +14,7 @@ const Home = () => {
     {
       user: 'Erik',
       user_id: '2',
-      body: 'Hello, world!',
+      body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       timestamp: Date.now(),
       url: '',
       tags: []
@@ -22,7 +22,7 @@ const Home = () => {
     {
       user: 'Spence',
       user_id: '3',
-      body: 'Hello, world!',
+      body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       timestamp: Date.now(),
       url: '',
       tags: []
@@ -30,7 +30,7 @@ const Home = () => {
   ];
 
   return (
-    <div className='home'>
+    <div className='home container'>
       <Feed posts={posts} />
     </div>
   );
