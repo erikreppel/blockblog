@@ -10,7 +10,8 @@ const Profile = React.createClass({
 
   getInitialState: function() {
     return {
-      posts: []
+      posts: [],
+      following: false
     };
   },
 
@@ -54,6 +55,24 @@ const Profile = React.createClass({
     }
   },
 
+  followUser: function(e) {
+    e.preventDefault()
+    if (!this.state.following) {
+      fetch(`http://localhost:3005/users/${this.props.username}/follow`, {
+        method: 'POST'
+      })
+      .then(response => {
+        return response;
+      })
+      .then(json => {
+        this.setState({
+          following: true
+        });
+        return json;
+      });
+    }
+  },
+
   onCreate: function(post) {
     this.setState({
       posts: [post, ...this.state.posts]
@@ -61,11 +80,21 @@ const Profile = React.createClass({
   },
 
   render: function() {
+    console.log(this.state.following);
     this.getPosts(this.props.user_id);
-
+    let followingUser = this.state.following;
+    let followText;
+    if (followingUser) {
+      followText = 'Following';
+    } else {
+      followText = 'Follow';
+    }
     return (
       <div className='profile container'>
-        <button className='follow'>Follow</button>
+        <button
+          className={`follow button ${followingUser ? 'button-primary' : ''}`}
+          onClick={this.followUser}
+          disabled={followingUser}>{followText}</button>
         <UserDetails
           user_id={this.props.user_id}
           username={this.props.username} />

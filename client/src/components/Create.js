@@ -3,7 +3,7 @@ import { getCookie } from '../helpers';
 
 const sendPost = body => {
   const post = {
-    user: 'Michael',
+    user: getCookie('username'),
     user_id: getCookie('user_id'),
     body: body,
     timestamp: Date.now(),
