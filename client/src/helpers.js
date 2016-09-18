@@ -4,3 +4,11 @@ export const getCookie = function(name) {
     return match[1];
   }
 };
+
+export const sort = function(array, key) {
+  return array.sort(function(b, a) {
+    const x = a[key];
+    const y = b[key];
+    return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+  });
+};
