@@ -16,5 +16,5 @@ A blockchain based social network built during Hack the North 2016. The idea is 
 4. Start posting.
 
 ## Contributors
-- Erik Reppel
-- Michael Reiter
+- [Erik Reppel](http://erikreppel.github.io/)
+- [Michael Reiter](http://michaelreiter.github.io/)
