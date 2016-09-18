@@ -16,4 +16,4 @@ export const sort = function(array, key) {
   });
 };
 
-export const DOMAIN = 'http://localhost:3005/';
+export const DOMAIN = window.location.href;
