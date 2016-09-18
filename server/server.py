@@ -108,9 +108,10 @@ def index():
     if is_authed(session):
         user_id = user_id_from_session(session)
         response = make_response(render_template("index.html"))
-        response.set_cookie('username', session['profile']['nickname'])
-        response.set_cookie('user_id', user_id)
-        response.set_cookie('logged_in_user_id', user_id)
+        if session['profile']:
+            response.set_cookie('username', session['profile']['nickname'])
+            response.set_cookie('user_id', user_id)
+            response.set_cookie('logged_in_user_id', user_id)
         return response
     else:
         return render_template('login.html')
@@ -163,7 +164,8 @@ def user_page(user_id):
     key = client.key('Users', user_id)
     user = helpers.load_entity(client.get(key))
     resp.set_cookie('user_id', user_id)
-    resp.set_cookie('username', user['username'])
+    if user:
+        resp.set_cookie('username', user['username'])
     return resp
 
 
