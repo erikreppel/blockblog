@@ -3,7 +3,7 @@
 A blockchain based social network built during Hack the North 2016. The idea is that it allows unprecedented freedom of speech since it is impossible to delete anything or ban users. It was written in 36 hours using JavaScript (ES6), React, Python and Flask.
 
 ## About
-// block_blog is a social network that allows anyone to create a free account and freely speak their mind online without possibility of censorship by any party.
+// block_blog is a social network that allows anyone to create a free account and freely speak their mind online without possibility of censorship by any party. It is meant to employ a custom blockchain implementation available [here](https://github.com/erikreppel/blogk).
 
 ## Requirements
 - Node.js
