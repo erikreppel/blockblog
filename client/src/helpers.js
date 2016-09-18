@@ -6,6 +6,9 @@ export const getCookie = function(name) {
 };
 
 export const sort = function(array, key) {
+  if (array.length < 1) {
+    return array;
+  }
   return array.sort(function(b, a) {
     const x = a[key];
     const y = b[key];

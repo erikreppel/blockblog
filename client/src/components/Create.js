@@ -41,9 +41,6 @@ const Create = ({ onCreate }) => {
         .then(post => {
           onCreate(post);
         })
-        .catch(err => {
-          console.log(err);
-        });
         inputRef.value = '';
       }}>
         <img
