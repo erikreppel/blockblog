@@ -116,17 +116,6 @@ def index():
         return render_template('login.html')
 
 
-@app.route('/user/<user_id>')
-def user_page(user_id):
-    client = datastore.Client()
-    resp = make_response(render_template("profile.html"))
-    key = client.key('Users', user_id)
-    user = helpers.load_entity(client.get(key))
-    resp.set_cookie('user_id', user_id)
-    resp.set_cookie('username', user['username'])
-    return resp
-
-
 @app.route('/users/<username>/follow', methods=['POST'])
 @requires_auth
 def follow_new_user(username):
@@ -162,6 +151,17 @@ def get_posts(user_id):
             return 500
     else:
         return 403
+
+
+@app.route('/<user_id>')
+def user_page(user_id):
+    client = datastore.Client()
+    resp = make_response(render_template("profile.html"))
+    key = client.key('Users', user_id)
+    user = helpers.load_entity(client.get(key))
+    resp.set_cookie('user_id', user_id)
+    resp.set_cookie('username', user['username'])
+    return resp
 
 
 if __name__ == '__main__':
