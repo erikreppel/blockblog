@@ -36,25 +36,29 @@ const Home = React.createClass({
       const unique_ids = followed_ids.filter(function(elem, index, self) {
         return index === self.indexOf(elem);
       });
-      // console.log(unique_ids);
-      return unique_ids.map(unique_id => {
-        return this.getPostsForUserId(unique_id);
-      });
+      return Promise.all(
+        unique_ids.map(unique_id => {
+          console.log(unique_id);
+          return this.getPostsForUserId(unique_id)
+          .then(result => {
+            return result;
+          });
+        })
+      );
     })
     .then(postsForId => {
-      console.log(postsForId);
-      // .then(allPosts => {
-      //   this.setState({
-      //     posts: allPosts
-      //   });
-      // });
+      const allPosts = [].concat.apply([], postsForId);
+      console.log(allPosts);
+      this.setState({
+        posts: allPosts
+      });
     });
   },
 
   getPostsForUserId: function(user_id) {
     if (this.state.posts.length === 0) {
       // change url to         window.location.href + 'users/user'          for prod
-      fetch(`http://localhost:3005/users/${user_id}`, {
+      return fetch(`http://localhost:3005/users/${user_id}`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -82,10 +86,6 @@ const Home = React.createClass({
             });
           })
         );
-      })
-      .then(result => {
-        // console.log(result);
-        return result;
       });
     }
   },
@@ -98,7 +98,6 @@ const Home = React.createClass({
 
   render: function() {
     this.getAllFollowedPosts();
-    // this.getPostsForUserId(this.props.user_id);
 
     return (
       <div className='home container'>
