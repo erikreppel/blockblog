@@ -1,5 +1,6 @@
 import React from 'react';
 import Feed from './Feed';
+import NavBar from './NavBar';
 import { getCookie } from '../helpers';
 const ld = require('lodash');
 
@@ -98,6 +99,7 @@ const Home = React.createClass({
 
     return (
       <div className='home container'>
+        <NavBar />
         <Feed posts={this.state.posts} onCreate={this.onCreate} />
       </div>
     );

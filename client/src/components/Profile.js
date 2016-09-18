@@ -1,6 +1,7 @@
 import React from 'react';
 import UserDetails from './UserDetails';
 import Feed from './Feed';
+import NavBar from './NavBar';
 import { getCookie } from '../helpers';
 
 const Profile = React.createClass({
@@ -119,6 +120,7 @@ const Profile = React.createClass({
     }
     return (
       <div className='profile container'>
+        <NavBar />
         <button
           className={`follow button ${followingUser ? 'button-primary' : ''}`}
           onClick={this.followUser}
