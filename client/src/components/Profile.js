@@ -98,7 +98,6 @@ const Profile = React.createClass({
         return response.json();
       })
       .then(profile => {
-        console.log(profile.following);
         if (profile.following.indexOf(this.props.user_id) > -1) {
           this.setState({
             following: true

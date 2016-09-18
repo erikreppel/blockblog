@@ -36,14 +36,14 @@ module.exports = {
   devtool: 'source-map',
   // In production, we only want to load the polyfills and the app code.
   entry: {
-    newsfeed: [
-      require.resolve('./polyfills'),
-      path.join(paths.appSrc, 'newsfeed')
-    ],
-    profile: [
-      require.resolve('./polyfills'),
-      path.join(paths.appSrc, 'profile')
-    ],
+    // newsfeed: [
+    //   require.resolve('./polyfills'),
+    //   path.join(paths.appSrc, 'newsfeed')
+    // ],
+    // profile: [
+    //   require.resolve('./polyfills'),
+    //   path.join(paths.appSrc, 'profile')
+    // ],
     login: [
       require.resolve('./polyfills'),
       path.join(paths.appSrc, 'login')
