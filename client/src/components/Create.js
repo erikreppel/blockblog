@@ -4,7 +4,7 @@ import { getCookie, DOMAIN } from '../helpers';
 const sendPost = body => {
   const post = {
     user: getCookie('username'),
-    user_id: getCookie('user_id'),
+    user_id: getCookie('logged_in_user_id'),
     body: body,
     timestamp: Date.now(),
     url: ''

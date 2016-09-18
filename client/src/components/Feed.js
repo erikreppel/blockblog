@@ -1,7 +1,7 @@
 import React from 'react';
 import Post from './Post';
 import Create from './Create';
-import { sort } from '../helpers';
+import { getCookie, sort } from '../helpers';
 
 const Feed = React.createClass({
   propTypes: {
@@ -18,7 +18,11 @@ const Feed = React.createClass({
   render: function() {
     return (
       <div className='feed'>
-        <Create onCreate={this.props.onCreate}/>
+        {
+          getCookie('logged_in_user_id') === getCookie('user_id') ?
+            <Create onCreate={this.props.onCreate}/>
+            : null
+        }
         {
           this.props.posts.length === 0 ?
             'loading posts...' :
