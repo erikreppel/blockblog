@@ -16,6 +16,12 @@ A blockchain based social network built during Hack the North 2016. The idea is 
 4. Start the back end with from /server `python server.py`.
 5. Start posting.
 
+## Screenshots
+
+![Screenshot](/screenshots/1.jpg)
+![Screenshot](/screenshots/2.jpg)
+![Screenshot](/screenshots/3.jpg)
+
 ## Contributors
 - [Erik Reppel](http://erikreppel.github.io/)
 - [Michael Reiter](http://michaelreiter.github.io/)
