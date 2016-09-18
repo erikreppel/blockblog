@@ -1,6 +1,9 @@
 import React from 'react';
+import { getCookie } from '../helpers';
 
-const UserDetails = ({ username, user_id }) => {
+const UserDetails = () => {
+  const username = getCookie('username');
+  const user_id = getCookie('user_id');
   return (
     <div className='user-details'>
       <img
@@ -12,11 +15,6 @@ const UserDetails = ({ username, user_id }) => {
       <h1 className='user_id'>uid: {user_id}</h1>
     </div>
   );
-};
-
-UserDetails.propTypes = {
-  username: React.PropTypes.string.isRequired,
-  user_id: React.PropTypes.string.isRequired
 };
 
 export default UserDetails;

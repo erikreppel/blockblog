@@ -123,9 +123,7 @@ const Profile = React.createClass({
           className={`follow button ${followingUser ? 'button-primary' : ''}`}
           onClick={this.followUser}
           disabled={followingUser}>{followText}</button>
-        <UserDetails
-          user_id={this.props.user_id}
-          username={this.props.username} />
+        <UserDetails />
         <Feed posts={this.state.posts} onCreate={this.onCreate} />
       </div>
     );

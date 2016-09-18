@@ -1,5 +1,6 @@
 import React from 'react';
 import Feed from './Feed';
+import { getCookie } from '../helpers';
 
 const Home = React.createClass({
   propTypes: {
@@ -12,7 +13,45 @@ const Home = React.createClass({
     };
   },
 
-  getPosts: function(user_id) {
+  getFollowedList: function() {
+    return fetch(`http://localhost:3005/users/${getCookie('logged_in_user_id')}`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      return response.json();
+    })
+    .then(profile => {
+      return profile.following;
+    });
+  },
+
+  getAllFollowedPosts: function() {
+    this.getFollowedList()
+    .then(followed_ids => {
+      // Remove duplicates
+      const unique_ids = followed_ids.filter(function(elem, index, self) {
+        return index === self.indexOf(elem);
+      });
+      // console.log(unique_ids);
+      return unique_ids.map(unique_id => {
+        return this.getPostsForUserId(unique_id);
+      });
+    })
+    .then(postsForId => {
+      console.log(postsForId);
+      // .then(allPosts => {
+      //   this.setState({
+      //     posts: allPosts
+      //   });
+      // });
+    });
+  },
+
+  getPostsForUserId: function(user_id) {
     if (this.state.posts.length === 0) {
       // change url to         window.location.href + 'users/user'          for prod
       fetch(`http://localhost:3005/users/${user_id}`, {
@@ -45,9 +84,8 @@ const Home = React.createClass({
         );
       })
       .then(result => {
-        this.setState({
-          posts: result
-        });
+        // console.log(result);
+        return result;
       });
     }
   },
@@ -59,7 +97,8 @@ const Home = React.createClass({
   },
 
   render: function() {
-    this.getPosts(this.props.user_id);
+    this.getAllFollowedPosts();
+    // this.getPostsForUserId(this.props.user_id);
 
     return (
       <div className='home container'>
