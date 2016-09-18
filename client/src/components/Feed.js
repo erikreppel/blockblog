@@ -9,7 +9,7 @@ const Feed = React.createClass({
     onCreate: React.PropTypes.func
   },
 
-  getInitialState:function() {
+  getInitialState: function() {
     return {
       posts: this.props.posts
     };

@@ -1,6 +1,7 @@
 import React from 'react';
 import UserDetails from './UserDetails';
 import Feed from './Feed';
+import { getCookie } from '../helpers';
 
 const Profile = React.createClass({
   propTypes: {
@@ -58,17 +59,21 @@ const Profile = React.createClass({
   followUser: function(e) {
     e.preventDefault()
     if (!this.state.following) {
-      fetch(`http://localhost:3005/users/${this.props.username}/follow`, {
-        method: 'POST'
+      fetch(`http://localhost:3005/users/${this.props.user_id}/follow`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user_id: getCookie('logged_in_user_id')
+        })
       })
       .then(response => {
         return response;
       })
       .then(json => {
-        this.setState({
-          following: true
-        });
-        return json;
+        this.checkIfFollowing();
       });
     }
   },
@@ -79,9 +84,33 @@ const Profile = React.createClass({
     });
   },
 
+  checkIfFollowing: function() {
+    const logged_in_user_id = getCookie('logged_in_user_id');
+    if (!this.state.following) {
+      fetch(`http://localhost:3005/users/${logged_in_user_id}`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => {
+        return response.json();
+      })
+      .then(profile => {
+        console.log(profile.following);
+        if (profile.following.indexOf(this.props.user_id) > -1) {
+          this.setState({
+            following: true
+          });
+        }
+      });
+    }
+  },
+
   render: function() {
-    console.log(this.state.following);
     this.getPosts(this.props.user_id);
+    this.checkIfFollowing();
     let followingUser = this.state.following;
     let followText;
     if (followingUser) {
