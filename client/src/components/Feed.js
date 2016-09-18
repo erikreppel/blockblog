@@ -1,6 +1,7 @@
 import React from 'react';
 import Post from './Post';
 import Create from './Create';
+import { sort } from '../helpers';
 
 const Feed = React.createClass({
   propTypes: {
@@ -15,12 +16,11 @@ const Feed = React.createClass({
   },
 
   render: function() {
-    // console.log(this.props.posts);
     return (
       <div className='feed'>
         <Create onCreate={this.props.onCreate}/>
         {
-          this.props.posts.map(post => {
+          sort(this.props.posts, 'timestamp').map(post => {
             return <Post post={post} key={post.timestamp} />
           })
         }

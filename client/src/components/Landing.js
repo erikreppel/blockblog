@@ -43,8 +43,6 @@ const Landing = () => {
     <div className='landing row'>
       <h1>// block_blog</h1>
       <button id='Google' className="button button-primary" onClick={() => {
-        const username = userRef.value.trim();
-        const password = passwordRef.value.trim();
         auth0.login({
           connection: 'google-oauth2'
         });
