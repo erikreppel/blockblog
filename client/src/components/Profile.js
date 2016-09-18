@@ -4,7 +4,8 @@ import Feed from './Feed';
 
 const Profile = React.createClass({
   propTypes: {
-    user_id: React.PropTypes.string.isRequired
+    user_id: React.PropTypes.string.isRequired,
+    username: React.PropTypes.string.isRequired
   },
 
   getInitialState: function() {
@@ -64,7 +65,8 @@ const Profile = React.createClass({
 
     return (
       <div className='profile container'>
-        <UserDetails user={this.props.user_id} />
+        <button className='follow'>Follow</button>
+        <UserDetails user={this.props.username} />
         <Feed posts={this.state.posts} onCreate={this.onCreate} />
       </div>
     );

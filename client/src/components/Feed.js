@@ -20,9 +20,11 @@ const Feed = React.createClass({
       <div className='feed'>
         <Create onCreate={this.props.onCreate}/>
         {
-          sort(this.props.posts, 'timestamp').map(post => {
-            return <Post post={post} key={post.timestamp} />
-          })
+          this.props.posts.length === 0 ?
+            'loading posts...' :
+            sort(this.props.posts, 'timestamp').map(post => {
+              return <Post post={post} key={post.timestamp} />
+            })
         }
       </div>
     );
