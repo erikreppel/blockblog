@@ -16,7 +16,6 @@ import time
 
 app = Flask(__name__, static_url_path='/static')
 app.secret_key = '@mgonto'
-client = datastore.Client()
 
 
 def user_id_from_session(session):
@@ -42,6 +41,8 @@ def requires_auth(f):
 
 @app.route('/callback')
 def callback_handling():
+    client = datastore.Client()
+
     code = request.args.get('code')
 
     json_header = {'content-type': 'application/json'}
@@ -122,8 +123,9 @@ def index():
 
 @app.route('/user/<user_id>')
 def user_page(user_id):
+    client = datastore.Client()
     resp = make_response(render_template("profile.html"))
-    key = datastore('User', user_id)
+    key = client.key('Users', user_id)
     user = helpers.load_entity(client.get(key))
     resp.set_cookie('user_id', user_id)
     resp.set_cookie('username', user['username'])
@@ -136,6 +138,7 @@ def follow_new_user(username):
     if request.method != 'POST':
         return 405
 
+    client = datastore.Client()
     user_id = request.args.get('user_id')
     body = request.json
     user_id = user_id_from_session(session)
@@ -151,6 +154,7 @@ def follow_new_user(username):
 
 @app.route('/users/<user_id>')
 def get_posts(user_id):
+    client = datastore.Client()
     if request.headers.get('Content-Type') == 'application/json':
         print 'here'
         key = client.key('Users', user_id)
