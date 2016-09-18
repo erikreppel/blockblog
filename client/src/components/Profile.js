@@ -66,7 +66,9 @@ const Profile = React.createClass({
     return (
       <div className='profile container'>
         <button className='follow'>Follow</button>
-        <UserDetails user={this.props.username} />
+        <UserDetails
+          user_id={this.props.user_id}
+          username={this.props.username} />
         <Feed posts={this.state.posts} onCreate={this.onCreate} />
       </div>
     );
