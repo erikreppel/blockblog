@@ -37,7 +37,6 @@ const Home = React.createClass({
       const unique_ids = ld.uniq(followed_ids);
       return Promise.all(
         unique_ids.map(unique_id => {
-          console.log(unique_id);
           return this.getPostsForUserId(unique_id)
           .then(result => {
             return result;
@@ -47,7 +46,6 @@ const Home = React.createClass({
     })
     .then(postsForId => {
       const allPosts = [].concat.apply([], postsForId);
-      console.log(allPosts);
       this.setState({
         posts: allPosts
       });
