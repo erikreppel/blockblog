@@ -1,6 +1,7 @@
 import React from 'react';
 import Feed from './Feed';
 import { getCookie } from '../helpers';
+const ld = require('lodash');
 
 const Home = React.createClass({
   propTypes: {
@@ -33,9 +34,7 @@ const Home = React.createClass({
     this.getFollowedList()
     .then(followed_ids => {
       // Remove duplicates
-      const unique_ids = followed_ids.filter(function(elem, index, self) {
-        return index === self.indexOf(elem);
-      });
+      const unique_ids = ld.uniq(followed_ids);
       return Promise.all(
         unique_ids.map(unique_id => {
           console.log(unique_id);
