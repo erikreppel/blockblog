@@ -14,11 +14,11 @@ def submit_post(user_id, post_id, data):
     current_posts['posts'].append(post_id)
     user_entity.update(helpers.make_entity(current_posts))
     client.put(user_entity)
-    post_entity.update(helpers.make_entity(data))
+    post_entity.update(data)
     client.put(post_entity)
 
 
 def get_data(user_id, post_id):
     key = client.key('Posts', post_id)
-    data = helpers.load_entity(client.get(key))
+    data = client.get(key)
     return data
