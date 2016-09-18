@@ -111,6 +111,7 @@ def index():
         response = make_response(render_template("index.html"))
         response.set_cookie('username', session['profile']['nickname'])
         response.set_cookie('user_id', user_id)
+        response.set_cookie('logged_in_user_id', user_id)
         return response
     else:
         return render_template('login.html')
