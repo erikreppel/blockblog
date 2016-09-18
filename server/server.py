@@ -42,11 +42,8 @@ def requires_auth(f):
 @app.route('/callback')
 def callback_handling():
     client = datastore.Client()
-
     code = request.args.get('code')
-
     json_header = {'content-type': 'application/json'}
-
     token_url = "https://{domain}/oauth/token".format(domain='erikreppel.auth0.com')
 
     token_payload = {
@@ -83,8 +80,6 @@ def callback_handling():
         }
         entity.update(helpers.make_entity(new_user))
         client.put(entity)
-    # Redirect to the User logged in page that you want here
-    # In our case it's /dashboard
     return redirect('/')
 
 
@@ -137,7 +132,6 @@ def user_page(user_id):
 def follow_new_user(username):
     if request.method != 'POST':
         return 405
-
     client = datastore.Client()
     user_id = request.args.get('user_id')
     body = request.json
@@ -156,7 +150,6 @@ def follow_new_user(username):
 def get_posts(user_id):
     client = datastore.Client()
     if request.headers.get('Content-Type') == 'application/json':
-        print 'here'
         key = client.key('Users', user_id)
         client_response = client.get(key)
         if client_response:
@@ -164,11 +157,8 @@ def get_posts(user_id):
             resp = make_response(jsonify(user))
             resp.set_cookie('user_id', user_id)
             resp.set_cookie('username', user['username'])
-            # key = client.key('Users', user)
-            # profile = helpers.load_entity(client.get(key))
             return resp
         else:
-            print 'error'
             return 500
     else:
         return 403
