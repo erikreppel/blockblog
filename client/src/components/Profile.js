@@ -15,6 +15,7 @@ const Profile = React.createClass({
 
   getPosts: function(user_id) {
     if (this.state.posts.length === 0) {
+      // change url to         window.location.href + 'users/user'          for prod
       fetch(`http://localhost:3005/users/${user_id}`, {
         method: 'GET',
         headers: {
@@ -59,15 +60,11 @@ const Profile = React.createClass({
   },
 
   render: function() {
-    // change url to         window.location.href + 'users/user'          for prod
-    const user_id = this.props.user_id;
+    this.getPosts(this.props.user_id);
 
-    this.getPosts(user_id);
-
-    console.log(this.state.posts);
     return (
       <div className='profile container'>
-        <UserDetails user={user_id} />
+        <UserDetails user={this.props.user_id} />
         <Feed posts={this.state.posts} onCreate={this.onCreate} />
       </div>
     );
