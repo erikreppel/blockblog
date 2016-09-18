@@ -1,5 +1,5 @@
 import React from 'react';
-import { getCookie } from '../helpers';
+import { getCookie, DOMAIN } from '../helpers';
 
 const sendPost = body => {
   const post = {
@@ -10,8 +10,7 @@ const sendPost = body => {
     url: ''
   };
 
-  // change url to         window.location.href + 'post'          for prod
-  return fetch('http://localhost:3005/post', {
+  return fetch(`${DOMAIN}post`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',

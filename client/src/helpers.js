@@ -12,3 +12,5 @@ export const sort = function(array, key) {
     return ((x < y) ? -1 : ((x > y) ? 1 : 0));
   });
 };
+
+export const DOMAIN = 'http://localhost:3005/';

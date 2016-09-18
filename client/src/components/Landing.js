@@ -1,15 +1,13 @@
 import React from 'react';
 import Auth0 from 'auth0-js';
+import { DOMAIN } from '../helpers';
 
 const Landing = () => {
   let auth0 = new Auth0({
     domain:         'erikreppel.auth0.com',
     clientID:       '35xtzL9xQ3onulOU5JhFrLgrKni1Lrya',
-    callbackURL:    `${window.location.href}callback`
+    callbackURL:    `${DOMAIN}callback`
   });
-
-  let userRef;
-  let passwordRef;
   
   return (
     <div className='landing row'>

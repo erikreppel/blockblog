@@ -2,7 +2,7 @@ import React from 'react';
 import UserDetails from './UserDetails';
 import Feed from './Feed';
 import NavBar from './NavBar';
-import { getCookie } from '../helpers';
+import { getCookie, DOMAIN } from '../helpers';
 
 const Profile = React.createClass({
   propTypes: {
@@ -20,7 +20,7 @@ const Profile = React.createClass({
   getPosts: function(user_id) {
     if (this.state.posts.length === 0) {
       // change url to         window.location.href + 'users/user'          for prod
-      fetch(`http://localhost:3005/users/${user_id}`, {
+      fetch(`${DOMAIN}users/${user_id}`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -36,7 +36,7 @@ const Profile = React.createClass({
       .then(result => {
         return Promise.all(
           result.map(post => {
-            return fetch(`http://localhost:3005/post?post_id=${post}&user_id=${user_id}`, {
+            return fetch(`${DOMAIN}post?post_id=${post}&user_id=${user_id}`, {
               method: 'GET',
               headers: {
                 'Accept': 'application/json',
@@ -60,7 +60,7 @@ const Profile = React.createClass({
   followUser: function(e) {
     e.preventDefault()
     if (!this.state.following) {
-      fetch(`http://localhost:3005/users/${this.props.user_id}/follow`, {
+      fetch(`${DOMAIN}users/${this.props.user_id}/follow`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -88,7 +88,7 @@ const Profile = React.createClass({
   checkIfFollowing: function() {
     const logged_in_user_id = getCookie('logged_in_user_id');
     if (!this.state.following) {
-      fetch(`http://localhost:3005/users/${logged_in_user_id}`, {
+      fetch(`${DOMAIN}users/${logged_in_user_id}`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',

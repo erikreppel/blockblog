@@ -1,7 +1,7 @@
 import React from 'react';
 import Feed from './Feed';
 import NavBar from './NavBar';
-import { getCookie } from '../helpers';
+import { getCookie, DOMAIN } from '../helpers';
 const ld = require('lodash');
 
 const Home = React.createClass({
@@ -16,7 +16,7 @@ const Home = React.createClass({
   },
 
   getFollowedList: function() {
-    return fetch(`http://localhost:3005/users/${getCookie('logged_in_user_id')}`, {
+    return fetch(`${DOMAIN}users/${getCookie('logged_in_user_id')}`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -56,7 +56,7 @@ const Home = React.createClass({
   getPostsForUserId: function(user_id) {
     if (this.state.posts.length === 0) {
       // change url to         window.location.href + 'users/user'          for prod
-      return fetch(`http://localhost:3005/users/${user_id}`, {
+      return fetch(`${DOMAIN}users/${user_id}`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -72,7 +72,7 @@ const Home = React.createClass({
       .then(result => {
         return Promise.all(
           result.map(post => {
-            return fetch(`http://localhost:3005/post?post_id=${post}&user_id=${user_id}`, {
+            return fetch(`${DOMAIN}post?post_id=${post}&user_id=${user_id}`, {
               method: 'GET',
               headers: {
                 'Accept': 'application/json',
