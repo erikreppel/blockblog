@@ -10,10 +10,11 @@ A blockchain based social network built during Hack the North 2016. The idea is 
 - a web server
 
 ## Building & Running
-1. Install the dependencies with `npm install`.
-2. Start the front end from /client with `npm start`.
-3. Start the back end with from /server `python server.py`.
-4. Start posting.
+1. Install the client dependencies with `npm install`.
+2. Install the server dependencies with `pip install -r requirements.txt`.
+3. Start the front end from /client with `npm start`.
+4. Start the back end with from /server `python server.py`.
+5. Start posting.
 
 ## Contributors
 - [Erik Reppel](http://erikreppel.github.io/)
