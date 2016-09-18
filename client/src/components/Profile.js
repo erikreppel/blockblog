@@ -9,53 +9,66 @@ const Profile = React.createClass({
 
   getInitialState: function() {
     return {
-
+      posts: []
     };
+  },
+
+  getPosts: function(user_id) {
+    if (this.state.posts.length === 0) {
+      fetch(`http://localhost:3005/users/${user_id}`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => {
+        return response.json();
+      })
+      .then(profile => {
+        return profile.posts;
+      })
+      .then(result => {
+        return Promise.all(
+          result.map(post => {
+            return fetch(`http://localhost:3005/post?post_id=${post}&user_id=${user_id}`, {
+              method: 'GET',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              }
+            })
+            .then(response => {
+              return response.json();
+            });
+          })
+        );
+      })
+      .then(result => {
+        this.setState({
+          posts: result
+        });
+      });
+    }
+  },
+
+  onCreate: function(post) {
+    this.setState({
+      posts: [post, ...this.state.posts]
+    });
   },
 
   render: function() {
     // change url to         window.location.href + 'users/user'          for prod
-    let posts = [];
     const user_id = this.props.user_id;
 
-    fetch(`http://localhost:3005/users/${user_id}`, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(response => {
-      return response.json();
-    })
-    .then(profile => {
-      return profile.posts;
-    })
-    .then(result => {
-      return Promise.all(
-        result.map(post => {
-          return fetch(`http://localhost:3005/post?post_id=${post}&user_id=${user_id}`, {
-            method: 'GET',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            }
-          })
-          .then(response => {
-            return response.json();
-          })
-        })
-      );
-    })
-    .then(result => {
-      posts = result;
-      console.log(posts);
-    });
+    this.getPosts(user_id);
 
+    console.log(this.state.posts);
     return (
       <div className='profile container'>
         <UserDetails user={user_id} />
-        <Feed posts={posts} />
+        <Feed posts={this.state.posts} onCreate={this.onCreate} />
       </div>
     );
   }

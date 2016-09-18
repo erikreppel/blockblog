@@ -4,7 +4,8 @@ import Create from './Create';
 
 const Feed = React.createClass({
   propTypes: {
-    posts: React.PropTypes.array.isRequired
+    posts: React.PropTypes.array.isRequired,
+    onCreate: React.PropTypes.func
   },
 
   getInitialState:function() {
@@ -13,18 +14,13 @@ const Feed = React.createClass({
     };
   },
 
-  onCreate: function(post) {
-    this.setState({
-      posts: [post, ...this.state.posts]
-    });
-  },
-
   render: function() {
+    // console.log(this.props.posts);
     return (
       <div className='feed'>
-        <Create onCreate={this.onCreate}/>
+        <Create onCreate={this.props.onCreate}/>
         {
-          this.state.posts.map(post => {
+          this.props.posts.map(post => {
             return <Post post={post} key={post.timestamp} />
           })
         }

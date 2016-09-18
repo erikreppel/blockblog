@@ -9,8 +9,8 @@ const Home = () => {
   );
 };
 
-Home.propTypes = {
-  //user?
-};
+// Home.propTypes = {
+//   //user?
+// };
 
 export default Home;
