@@ -98,7 +98,6 @@ def hande_new_post():
     if request.method == "GET":
         post_id = request.args.get('post_id')
         user_id = request.args.get('user_id')
-        print user_id, post_id
         return jsonify(data.get_data(user_id, post_id))
     else:
         return 400
@@ -118,22 +117,25 @@ def index():
 
 
 @app.route('/users/<username>/follow', methods=['POST'])
-@requires_auth
+# @requires_auth
 def follow_new_user(username):
-    if request.method != 'POST':
+    if request.method == 'POST':
+        client = datastore.Client()
+        body = request.json
+        # user_id = user_id_from_session(session)
+        user_id = body['user_id']
+        if user_id != username:
+            return 403
+        key = client.key('Users', user_id)
+        profile = helpers.load_entity(client.get(key))
+        profile['following'].append(username)
+        entity = datastore.Entity(key=key)
+        json_entity = helpers.make_entity(profile)
+        entity.update(json_entity)
+        client.put(entity)
+        return 200
+    else:
         return 405
-    client = datastore.Client()
-    user_id = request.args.get('user_id')
-    body = request.json
-    user_id = user_id_from_session(session)
-    if user_id != username:
-        return 403
-    key = client.key('Users', user_id)
-    profile = helpers.load_entity(client.get(key))
-    profile['following'].append(body['user_id'])
-    entity = datastore.Entity(key=key)
-    entity.update(helpers.make_entity(profile))
-    return 200
 
 
 @app.route('/users/<user_id>')
